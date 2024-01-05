@@ -1,0 +1,43 @@
+@import "src/styles/mixins";
+
+.text {
+  @include typography(
+    $fs: $font-size-xl,
+    $lh: $line-height-m,
+    $fw: $font-weight-bold
+  );
+
+  color: rgb(255 255 255);
+}
+
+.title {
+  @include typography(
+    $fs: $font-size-xxl,
+    $lh: $line-height-m,
+    $fw: $font-weight-bold
+  );
+
+  margin-bottom: 25px;
+  color: rgb(255 255 255);
+  text-align: center;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+
+  width: auto;
+  padding: 1rem;
+
+  background-color: rgb(255 255 255 / 10%);
+  border-radius: 10px;
+}
+
+.container_button {
+  display: flex;
+  gap: 15px;
+  justify-content: space-between;
+}
+.info_block {
+  max-width: 300px;
+}
