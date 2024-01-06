@@ -1,16 +1,18 @@
 import React, { ChangeEvent, ComponentProps } from "react";
 
-import s from "./input-main.module.scss";
+import s from "./input.module.scss";
 
-type UIInputPropsType = {
-  value?: string;
-  label?: string;
+export type UIInputPropsType = {
   errorMessage?: string;
+  label?: string;
+  fullWidth?: boolean;
+  className?: string;
+  value?: string;
   onChangeText?: (value: string) => void;
   isRequired?: boolean;
 } & ComponentProps<"input">;
 
-export const InputMain: React.FC<UIInputPropsType> = (props) => {
+export const Input: React.FC<UIInputPropsType> = (props) => {
   const {
     type = "text",
     disabled,
@@ -20,6 +22,7 @@ export const InputMain: React.FC<UIInputPropsType> = (props) => {
     placeholder,
     value,
     isRequired,
+    className,
     ...rest
   } = props;
 
@@ -30,7 +33,7 @@ export const InputMain: React.FC<UIInputPropsType> = (props) => {
   const showErrorMess = errorMessage && errorMessage.length > 0;
 
   return (
-    <div className={s.textFieldWrap}>
+    <div className={`${s.textFieldWrap} ${className}`}>
       <label className={`${s.label} ${disabled && s.disabledLabel}`}>
         {label}
         {isRequired && <span className={s.star}>*</span>}

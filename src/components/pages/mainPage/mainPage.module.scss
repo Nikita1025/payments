@@ -38,6 +38,14 @@
   gap: 15px;
   justify-content: space-between;
 }
-.info_block {
-  max-width: 300px;
+
+@media (width <= 768px) {
+  .container_button {
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .container {
+    width: 100%;
+  }
 }

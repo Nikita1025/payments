@@ -15,7 +15,7 @@ export const Button = <T extends ElementType = "button">(
   const { className, children, as: Component = "button", ...rest } = props;
 
   return (
-    <Component className={s.default} {...rest}>
+    <Component className={`${s.default} ${className}`} {...rest}>
       {children}
     </Component>
   );

@@ -1,0 +1,54 @@
+@import "src/styles/mixins";
+@import "src/styles/colors";
+@import "src/styles/typography";
+
+.textFieldWrap {
+  position: relative;
+  width: 100%;
+
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  input:-webkit-autofill:active {
+    box-shadow: 0 0 0 30px $color-dark-500 inset;
+
+    -webkit-text-fill-color: $color-light-100;
+  }
+
+  .textField {
+    width: 100%;
+    padding: 10px;
+
+    background-color: transparent;
+    border: 1px solid;
+    border-radius: 10px;
+    caret-color: white;
+
+    &:focus {
+      border: 1px solid rgb(255 0 0);
+      outline: none;
+
+      &::placeholder {
+        color: $color-light-900;
+      }
+    }
+  }
+
+  .label {
+    font-size: 14px;
+    color: rgb(255 255 255);
+  }
+
+  .disabledLabel {
+    color: $color-dark-100;
+  }
+
+  .errorWrap {
+    color: rgb(255 0 0);
+  }
+
+  .disabledInput {
+    color: $color-dark-100;
+    border-color: $color-dark-100;
+  }
+}

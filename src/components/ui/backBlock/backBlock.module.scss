@@ -1,0 +1,19 @@
+.back_block {
+  cursor: pointer;
+
+  display: flex;
+  gap: 8px;
+  align-items: center;
+
+  margin-bottom: 40px;
+
+  text-decoration: none;
+}
+
+.back_block:hover svg {
+  fill: #bebebe;
+}
+
+.back_block:hover span {
+  color: #bebebe;
+}
