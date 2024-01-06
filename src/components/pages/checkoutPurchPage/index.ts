@@ -1,0 +1,1 @@
+export { CheckoutPurchPage } from "./checkoutPurchPage";

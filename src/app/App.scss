@@ -1,0 +1,12 @@
+.App {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+@media (width <= 768px) {
+  .App {
+    padding: 20px;
+  }
+}
