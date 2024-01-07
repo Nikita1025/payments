@@ -31,7 +31,7 @@ export const MainPage = () => {
         <ButtonBlock
           onClick={onClickCheckoutTrialSub}
           buttonText={"Подписаться"}
-          subscription={"Триальный период $6"}
+          subscription={"Триальный период $6.99"}
         />
       </div>
     </div>
