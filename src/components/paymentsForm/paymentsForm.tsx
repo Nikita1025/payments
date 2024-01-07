@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import s from "./paymentsForm.module.scss";
 import { Button } from "src/components/ui/button";
 import { ApplePayIcon } from "src/assets/icons/applePayIcon";
@@ -19,39 +19,49 @@ export const PaymentsForm = ({ buttonText }: PaymentsFormType) => {
 
   const stripe = useStripe();
   const elements = useElements();
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setEmail(event.target.value);
+  };
   const handleSubmitPay = async () => {
     if (!stripe || !elements) {
       return;
     }
 
-    const res = await axios.post("https://983z5d-5000.csb.app/pay", {
-      email,
-    });
-
-    const clientSecret = res.data["client_secret"];
-
-    const result = await stripe.confirmCardPayment(clientSecret, {
-      payment_method: {
-        card: elements.getElement(CardElement)!,
-        billing_details: {
-          email,
-        },
-      },
-    });
-
-    if (result.error) {
+    if (email.length < 5) {
       setIsOpen(true);
-      setStatus(result.error.message!);
+      setStatus("Введите почту");
       setTimeout(() => {
         setIsOpen(false);
       }, 2000);
     } else {
-      if (result.paymentIntent.status === "succeeded") {
+      const res = await axios.post("https://983z5d-5000.csb.app/pay", {
+        email,
+      });
+      const clientSecret = res.data["client_secret"];
+
+      const result = await stripe.confirmCardPayment(clientSecret, {
+        payment_method: {
+          card: elements.getElement(CardElement)!,
+          billing_details: {
+            email,
+          },
+        },
+      });
+
+      if (result.error) {
         setIsOpen(true);
-        setStatus("Оплачено");
+        setStatus(result.error.message!);
         setTimeout(() => {
           setIsOpen(false);
         }, 2000);
+      } else {
+        if (result.paymentIntent.status === "succeeded") {
+          setIsOpen(true);
+          setStatus("Оплачено");
+          setTimeout(() => {
+            setIsOpen(false);
+          }, 2000);
+        }
       }
     }
   };
@@ -73,7 +83,7 @@ export const PaymentsForm = ({ buttonText }: PaymentsFormType) => {
         required
         placeholder={"Введите почту"}
         type={"email"}
-        onChange={(e) => setEmail(e.target.value)}
+        onChange={handleChange}
       />
       <CardInput />
       <Button onClick={handleSubmitPay}>
