@@ -1,36 +1,64 @@
-import React from "react";
+import React, { useState } from "react";
 import s from "./paymentsForm.module.scss";
-import { zodResolver } from "@hookform/resolvers/zod";
-
-import { ControlledInput } from "src/common/controlled";
 import { Button } from "src/components/ui/button";
-import { useForm } from "react-hook-form";
-import { paymentsSchema } from "src/common/schemas";
 import { ApplePayIcon } from "src/assets/icons/applePayIcon";
 import { PayPalIcon } from "src/assets/icons/payPalIcon";
+import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
+import axios from "axios";
+import { Input } from "src/components/ui/input";
+import { CardInput } from "src/components/ui/inputCard";
+import { Snackbar } from "src/components/ui/snackbar ";
 
 type PaymentsFormType = {
   buttonText: string;
 };
 export const PaymentsForm = ({ buttonText }: PaymentsFormType) => {
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<any>({
-    resolver: zodResolver(paymentsSchema()),
-    mode: "onTouched",
-    defaultValues: {
-      email: "",
-      password: "",
-    },
-  });
+  const [email, setEmail] = useState("");
+  const [status, setStatus] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
 
-  const submitData = (data: any) => {
-    console.log(data);
+  const stripe = useStripe();
+  const elements = useElements();
+  const handleSubmitPay = async () => {
+    if (!stripe || !elements) {
+      return;
+    }
+
+    const res = await axios.post("https://983z5d-5000.csb.app/pay", {
+      email,
+    });
+
+    const clientSecret = res.data["client_secret"];
+
+    const result = await stripe.confirmCardPayment(clientSecret, {
+      payment_method: {
+        card: elements.getElement(CardElement)!,
+        billing_details: {
+          email,
+        },
+      },
+    });
+
+    if (result.error) {
+      setIsOpen(true);
+      setStatus(result.error.message!);
+      setTimeout(() => {
+        setIsOpen(false);
+      }, 2000);
+    } else {
+      if (result.paymentIntent.status === "succeeded") {
+        setIsOpen(true);
+        setStatus("Оплачено");
+        setTimeout(() => {
+          setIsOpen(false);
+        }, 2000);
+      }
+    }
   };
+
   return (
     <div className={s.container}>
+      {isOpen && <Snackbar message={status} />}
       <div className={s.pay_block}>
         <Button className={s.apple_pay}>
           <ApplePayIcon />
@@ -41,37 +69,16 @@ export const PaymentsForm = ({ buttonText }: PaymentsFormType) => {
           <span className={s.pay}>Pay Pal</span>
         </Button>
       </div>
-
-      <form onSubmit={handleSubmit(submitData)}>
-        <ControlledInput
-          control={control}
-          label={"Card Number"}
-          name={"cardNumber"}
-          placeholder={"1234 1234 1234 1234"}
-          maxLength={16}
-          className={s.input}
-        />
-        <div className={s.input_block}>
-          <ControlledInput
-            control={control}
-            label={"Expiration Date"}
-            name={"expirationDate"}
-            placeholder={"ММ / ГГ"}
-            maxLength={5}
-          />
-          <ControlledInput
-            label={"CVC Code"}
-            control={control}
-            name={"CVC"}
-            placeholder={"CVC"}
-            maxLength={3}
-          />
-        </div>
-
-        <Button type={"submit"}>
-          <span>{buttonText}</span>
-        </Button>
-      </form>
+      <Input
+        required
+        placeholder={"Введите почту"}
+        type={"email"}
+        onChange={(e) => setEmail(e.target.value)}
+      />
+      <CardInput />
+      <Button onClick={handleSubmitPay}>
+        <span>{buttonText}</span>
+      </Button>
     </div>
   );
 };

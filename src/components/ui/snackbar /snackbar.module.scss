@@ -1,0 +1,60 @@
+@import "src/styles/mixins";
+
+.modal {
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  height: 100%;
+
+  background-color: rgb(0 0 0 / 50%);
+
+  transition: opacity 0.3s ease;
+}
+
+.modal_content {
+  transform: scale(0.8);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 300px;
+  height: 100px;
+
+  background-color: #fff;
+  border-radius: 10px;
+
+  transition: transform 0.3s ease;
+  animation: modalFadeIn 0.3s forwards;
+}
+
+.message {
+  @include typography(
+    $fs: $font-size-xl,
+    $lh: $line-height-m,
+    $fw: $font-weight-bold
+  );
+
+  color: #000;
+}
+
+.modal.modal_content {
+  transform: scale(1);
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
