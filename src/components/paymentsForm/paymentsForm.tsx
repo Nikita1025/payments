@@ -34,7 +34,7 @@ export const PaymentsForm = ({ buttonText, price }: PaymentsFormType) => {
         setIsOpen(false);
       }, 2000);
     } else {
-      const res = await axios.post("http://localhost:4242//pay", {
+      const res = await axios.post("https://983z5d-4242.csb.app/pay", {
         email,
         price,
       });
