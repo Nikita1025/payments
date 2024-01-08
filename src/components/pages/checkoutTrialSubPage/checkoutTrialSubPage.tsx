@@ -6,7 +6,7 @@ export const CheckoutTrialSubPage = () => {
   return (
     <div className={s.container}>
       <BackBlock />
-      <PaymentsForm buttonText={"Попробуйте сейчас за $6.99"} />
+      <PaymentsForm price={"699"} buttonText={"Попробуйте сейчас за $6.99"} />
     </div>
   );
 };

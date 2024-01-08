@@ -1,18 +1,18 @@
 import React, { ChangeEvent, useState } from "react";
 import s from "./paymentsForm.module.scss";
 import { Button } from "src/components/ui/button";
-import { ApplePayIcon } from "src/assets/icons/applePayIcon";
-import { PayPalIcon } from "src/assets/icons/payPalIcon";
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import axios from "axios";
 import { Input } from "src/components/ui/input";
 import { CardInput } from "src/components/ui/inputCard";
 import { Snackbar } from "src/components/ui/snackbar ";
+import { ApplePay } from "src/components/pays/applePay";
 
 type PaymentsFormType = {
   buttonText: string;
+  price: string;
 };
-export const PaymentsForm = ({ buttonText }: PaymentsFormType) => {
+export const PaymentsForm = ({ buttonText, price }: PaymentsFormType) => {
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState("");
   const [isOpen, setIsOpen] = useState(false);
@@ -34,8 +34,9 @@ export const PaymentsForm = ({ buttonText }: PaymentsFormType) => {
         setIsOpen(false);
       }, 2000);
     } else {
-      const res = await axios.post("https://983z5d-5000.csb.app/pay", {
+      const res = await axios.post("http://localhost:4242//pay", {
         email,
+        price,
       });
       const clientSecret = res.data["client_secret"];
 
@@ -70,14 +71,7 @@ export const PaymentsForm = ({ buttonText }: PaymentsFormType) => {
     <div className={s.container}>
       {isOpen && <Snackbar message={status} />}
       <div className={s.pay_block}>
-        <Button className={s.apple_pay}>
-          <ApplePayIcon />
-          <span className={s.pay}>Pay</span>
-        </Button>
-        <Button className={s.pay_pal}>
-          <PayPalIcon />
-          <span className={s.pay}>Pay Pal</span>
-        </Button>
+        <ApplePay />
       </div>
       <Input
         required
