@@ -6,7 +6,7 @@ export const CheckoutPurchPage = () => {
   return (
     <div className={s.container}>
       <BackBlock />
-      <PaymentsForm price={"99"} buttonText={"Попробуйте сейчас за $0.99"} />
+      <PaymentsForm plan={"day"} buttonText={"Попробуйте сейчас за $0.99"} />
     </div>
   );
 };

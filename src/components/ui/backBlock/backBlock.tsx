@@ -9,9 +9,9 @@ export const BackBlock = () => {
     navigate(PATH.MAIN);
   };
   return (
-    <a className={s.back_block} onClick={onClickBack}>
+    <div className={s.back_block} onClick={onClickBack}>
       <VectorLeft />
       <span>Назад</span>
-    </a>
+    </div>
   );
 };
