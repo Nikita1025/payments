@@ -15,7 +15,7 @@ export const ButtonBlock = ({
     <div className={s.info_block}>
       <span className={s.subscription}>{subscription}</span>
       <Button onClick={onClick}>
-        <span className={s.text}>{buttonText}</span>
+        <span>{buttonText}</span>
       </Button>
     </div>
   );

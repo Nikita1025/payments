@@ -17,11 +17,19 @@ export const MainPage = () => {
   return (
     <div className={s.container}>
       <span className={s.title}>Оформление подписки</span>
+      <div className={s.text_block}>
+        <span className={s.text}>
+          Открывайте для себя новые аудиокниги с опцией Букмейт или слушайте
+          эксклюзивные подкасты. А самым маленьким включайте детские песенки и
+          сказки
+        </span>
+      </div>
+
       <div className={s.container_button}>
         <ButtonBlock
           onClick={onClickCheckoutPurch}
           buttonText={"Подписаться"}
-          subscription={"Одноразовая покупка $0.99"}
+          subscription={"Подписка на день $0.99"}
         />
         <ButtonBlock
           onClick={onClickCheckoutSub1}

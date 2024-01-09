@@ -2,12 +2,20 @@
 
 .text {
   @include typography(
-    $fs: $font-size-xl,
-    $lh: $line-height-m,
-    $fw: $font-weight-bold
+    $fs: $font-size-m,
+    $lh: $line-height-s,
+    $fw: $font-weight-medium
   );
 
+  max-width: 500px;
   color: rgb(255 255 255);
+  text-align: center;
+}
+
+.text_block {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 15px;
 }
 
 .title {
